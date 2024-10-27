@@ -1,0 +1,14 @@
+
+{% extends 'tracker/base.html' %}
+
+{% block title %}Delete Topic - Revision Tracker{% endblock %}
+
+{% block content %}
+<h2>Delete Topic</h2>
+<p>Are you sure you want to delete "{{ topic.name }}"?</p>
+<form method="POST">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Confirm Delete</button>
+</form>
+<a href="{% url 'index' %}" class="btn btn-secondary mt-3">Cancel</a>
+{% endblock %}

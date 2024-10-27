@@ -1,0 +1,14 @@
+
+{% extends 'tracker/base.html' %}
+
+{% block title %}Add Topic - Revision Tracker{% endblock %}
+
+{% block content %}
+<h1>Add a New Topic</h1>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Add Topic</button>
+</form>
+<a href="{% url 'index' %}" class="btn btn-secondary mt-3">Cancel</a>
+{% endblock %}

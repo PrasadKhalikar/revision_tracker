@@ -1,0 +1,45 @@
+
+{% extends 'tracker/base.html' %}
+
+{% block title %}My Topics - Revision Tracker{% endblock %}
+
+{% block content %}
+<h1>Today's Topics for Revision</h1>
+
+{% if topics_for_today %}
+    <ul class="list-group">
+        {% for topic in topics_for_today %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    <strong>{{ topic.name }}</strong> 
+                    <span class="text-muted">({{ topic.date_added }})</span>
+                </div>
+                <div>
+                    <!-- Mark as Completed Button -->
+                    <form action="{% url 'mark_completed' topic.id %}" method="POST" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-sm btn-primary" 
+                                {% if topic.completed_date == today %}disabled{% endif %}>
+                            {% if topic.completed_date == today %}Completed Today{% else %}Mark as Completed{% endif %}
+                        </button>
+                    </form>
+                    <!-- Edit Button -->
+                    <a href="{% url 'edit_topic' topic.id %}" class="btn btn-sm btn-warning">Edit</a>
+                    <!-- Delete Button -->
+                    <form action="{% url 'delete_topic' topic.id %}" method="POST" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-sm btn-danger" 
+                                onclick="return confirm('Are you sure you want to delete this topic?');">Delete</button>
+                    </form>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <div class="alert alert-info" role="alert">
+        No topics for revision today.
+    </div>
+{% endif %}
+
+<a href="{% url 'add_topic' %}" class="btn btn-success mt-3">Add a new topic</a>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends 'tracker/base.html' %}
+
+{% block title %}Progress Report - Revision Tracker{% endblock %}
+
+{% block content %}
+<h2>Progress Report</h2>
+<hr>
+<h5>Overall Progress</h5>
+<p>You have completed <strong>{{ overall_progress|floatformat:2 }}%</strong> of all topics.</p>
+<h5>Daily Progress</h5>
+<p>Today's completion rate: <strong>{{ daily_progress|floatformat:2 }}%</strong>.</p>
+
+<div class="mt-4">
+    <h5>Progress Comparison Graph</h5>
+    <canvas id="progressComparisonChart" width="400" height="200"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Data for the comparison chart
+    const labels = ['Overall Progress', 'Daily Progress', 'Completed Today', 'Remaining Today'];
+    const data = {
+        labels: labels,
+        datasets: [{
+            label: 'Progress Metrics',
+            data: [
+                {{ overall_progress|floatformat:2 }}, // Overall Progress
+                {{ daily_progress|floatformat:2 }}, // Daily Progress
+                {{ daily_completed }}, // Completed Today
+                {{ remaining_topics_today }} // Remaining Topics for Today
+            ],
+            backgroundColor: [
+                'rgba(75, 192, 192, 0.2)', // Color for overall progress
+                'rgba(255, 159, 64, 0.2)', // Color for daily progress
+                'rgba(54, 162, 235, 0.2)', // Color for completed today
+                'rgba(255, 99, 132, 0.2)' // Color for remaining today
+            ],
+            borderColor: [
+                'rgba(75, 192, 192, 1)', // Border color for overall progress
+                'rgba(255, 159, 64, 1)', // Border color for daily progress
+                'rgba(54, 162, 235, 1)', // Border color for completed today
+                'rgba(255, 99, 132, 1)' // Border color for remaining today
+            ],
+            borderWidth: 1,
+            fill: false
+        }]
+    };
+
+    const config = {
+        type: 'bar', // You can also use 'line' for line charts
+        data: data,
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) { return value; } // No percentage for these values
+                    }
+                }
+            }
+        }
+    };
+
+    const progressComparisonChart = new Chart(
+        document.getElementById('progressComparisonChart'),
+        config
+    );
+</script>
+{% endblock %}

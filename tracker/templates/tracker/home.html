@@ -1,0 +1,36 @@
+{% extends 'tracker/base.html' %}
+
+{% block title %}Home - Revision Tracker{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-column min-vh-100">
+    <header>
+        
+    </header>
+
+    <main class="container mt-4 flex-grow-1">
+        {% if messages %}
+            <div class="alert alert-info" role="alert">
+                <ul class="list-unstyled">
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+        
+        <h1>Welcome to the Revision Tracker</h1>
+        <p>This app helps you keep track of your study topics and manage revisions according to the Fibonacci sequence.</p>
+        <p>Sign up or log in to get started!</p>
+    </main>
+
+    <footer class="footer bg-light text-center py-3">
+        <div class="container">
+            <span class="text-muted">© 2024 Revision Tracker. All Rights Reserved.</span>
+            <br>
+            
+        </div>
+    </footer>
+</div>
+
+{% endblock %}
